@@ -6,7 +6,22 @@ import songRoutes from './routes/songs';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// Allow requests from the Vercel frontend
+const allowedOrigins = ['https://bonktify.vercel.app'];
+
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      // Allow requests with no origin (like Postman) or from allowed origins
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Routes
