@@ -8,15 +8,20 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    if (!authHeader)
-        return res.sendStatus(401);
+    if (!authHeader) {
+        res.sendStatus(401);
+        return;
+    }
     const token = authHeader.split(' ')[1];
-    if (!token)
-        return res.sendStatus(401);
+    if (!token) {
+        res.sendStatus(401);
+        return;
+    }
     jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
             console.error(err);
-            return res.sendStatus(403);
+            res.sendStatus(403);
+            return;
         }
         req.user = user;
         next();
