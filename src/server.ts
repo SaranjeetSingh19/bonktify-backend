@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Allow requests from the Vercel frontend
-const allowedOrigins = ['https://bonktify.vercel.app'];
+const allowedOrigins = ['https://bonktify.vercel.app', 'http://localhost:5173'];
 
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
